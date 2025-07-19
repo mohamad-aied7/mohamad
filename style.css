@@ -1,46 +1,4 @@
-/* تنسيقات شاشة البداية (Splash Screen) */
-#splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #3F4771, #B28BC7); /* تدرج لوني أزرق وبنفسجي */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* تأكد أنها فوق كل شيء آخر */
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 1.5s ease-out, visibility 1.5s ease-out; /* حركة إخفاء سلسة وبطيئة */
-}
-
-#splash-screen.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none; /* لمنع التفاعل معها بعد الإخفاء */
-}
-
-#splash-screen img {
-    max-width: 250px; /* حجم الشعار على شاشة البداية */
-    height: auto;
-    animation: bounce 2s infinite ease-in-out; /* حركة ارتداد للشعار */
-}
-
-/* حركة ارتداد بسيطة للشعار */
-@keyframes bounce {
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-/*
- الخطوط والألوان الأساسية
-*/
+/* Custom CSS Variables */
 :root {
     --primary-color: #B28BC7; /* لون اللافندر - لون أساسي جديد */
     --secondary-color: #6c757d; /* رمادي */
@@ -52,13 +10,10 @@
     --border-color: #dee2e6;
 
     --font-family-primary: 'Cairo', sans-serif; /* خط عربي جميل شائع */
-    /* يمكنك إضافة Google Fonts في الـ head بالـ HTML إذا أردت استخدام Cairo */
-    /* <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"> */
+    --header-height: 70px; /* ارتفاع ثابت للهيدر */
 }
 
-/*
- إعادة تعيين CSS أساسية
-*/
+/* Global Styles - إعادة تعيين CSS أساسية */
 * {
     margin: 0;
     padding: 0;
@@ -79,7 +34,7 @@ body {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
+    /*padding: 20px 0; -- تم إزالة هذه الحشوة لأن الأقسام لديها حشواتها الخاصة */
 }
 
 a {
@@ -101,9 +56,7 @@ ul {
     list-style: none;
 }
 
-/*
- الطباعة
-*/
+/* الطباعة */
 h1,
 h2,
 h3,
@@ -123,8 +76,8 @@ h2 {
     font-size: 2.5em;
     text-align: center;
     margin-bottom: 40px;
-    position: relative; /* لتحديد موقع الخط السفلي */
-    padding-bottom: 10px; /* مسافة بين النص والخط السفلي */
+    position: relative;
+    padding-bottom: 10px;
 }
 
 /* خط سفلي تحت عناوين h2 */
@@ -139,7 +92,6 @@ h2::after {
     background-color: var(--primary-color); /* لون الخط */
 }
 
-
 h3 {
     font-size: 1.8em;
     margin-bottom: 15px;
@@ -150,33 +102,32 @@ p {
     line-height: 1.8;
 }
 
-/*
- الأزرار
-*/
+/* الأزرار */
 .btn {
     display: inline-block;
     background-color: var(--primary-color);
     color: var(--white);
     padding: 12px 25px;
     border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* إضافة transform للزر */
-    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px; /* يمكن تعديله حسب الحاجة */
     font-weight: bold;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* ظل خفيف */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center; /* للتأكد من توسيط النص داخل الزر */
 }
 
 .btn:hover {
-    background-color: #8C6A9B; /* درجة أغمق لللافندر عند التمرير */
-    transform: translateY(-2px); /* تحريك الزر للأعلى قليلاً */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* ظل أكبر */
+    background-color: #8C6A9B;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
 .btn-small {
     padding: 8px 15px;
     font-size: 0.9em;
-    margin-top: 10px;
+    margin-top: 10px; /* يمكن تعديله حسب الحاجة */
 }
 
 /* New: Pulse effect for contact form button */
@@ -191,23 +142,25 @@ p {
 }
 
 
-/*
- الهيدر وشريط التنقل
-*/
+/* الهيدر وشريط التنقل */
 header {
-    background-color: #3F4771; /* لون مدمج بين اللافندر والأزرق الداكن */
+    background-color: #3F4771;
     color: var(--white);
     padding: 10px 0;
-    position: sticky;
+    position: fixed; /* تم التغيير من sticky إلى fixed للتحكم بالارتفاع */
+    width: 100%;
     top: 0;
+    left: 0;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease; /* للحصول على تأثير سلس عند التغيير */
+    transition: background-color 0.3s ease;
+    height: var(--header-height); /* استخدام المتغير */
+    display: flex;
+    align-items: center;
 }
 
-/* يمكن إضافة هذا لجعل الهيدر شفافاً قليلاً عند التمرير */
 header.scrolled {
-    background-color: rgba(63, 71, 113, 0.9); /* نفس اللون ولكن بشفافية */
+    background-color: rgba(63, 71, 113, 0.9);
 }
 
 header .container {
@@ -215,6 +168,9 @@ header .container {
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    width: 90%; /* تأكد من تطبيق عرض الـ container */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 header .logo {
@@ -223,10 +179,11 @@ header .logo {
     font-size: 2.2em;
     font-weight: bold;
     color: var(--white);
+    margin: 0; /* إزالة الهامش الافتراضي إذا كان شعارًا ضمن وسم h1 */
 }
 
 header .logo img {
-    height: 50px; /* Adjusted to 50px as in HTML, for consistency */
+    height: 50px;
     margin-left: 15px;
 }
 
@@ -257,7 +214,7 @@ header nav ul li a::after {
     width: 0;
     height: 2px;
     background: var(--primary-color);
-    left: 0;
+    right: 0; /* ليتناسب مع RTL */
     bottom: 0;
     transition: width 0.3s ease;
 }
@@ -266,18 +223,17 @@ header nav ul li a:hover::after {
     width: 100%;
 }
 
-/*
- قسم البطل (Hero Section) - تم تعديله ليكون قسم "محمد عايد"
-*/
-.hero {
+/* قسم البطل (Hero Section) - محمد عايد */
+.hero-section { /* تم تغيير الكلاس من `.hero` لتجنب التعارض */
     background-color: var(--bg-light);
     color: var(--text-color);
     text-align: center;
     padding: 80px 0;
     border-bottom: 1px solid var(--border-color);
+    margin-top: var(--header-height); /* لإزاحة المحتوى لأسفل الهيدر الثابت */
 }
 
-.hero .profile-pic {
+.hero-section .profile-pic {
     width: 180px;
     height: 180px;
     border-radius: 50%;
@@ -287,29 +243,84 @@ header nav ul li a:hover::after {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.hero h2 {
+.hero-section h2 {
     font-size: 3em;
     color: var(--bg-dark);
     margin-bottom: 10px;
+    /* إزالة الخط السفلي من h2 في هذا القسم إذا لم يكن مطلوباً */
+    padding-bottom: 0;
+}
+.hero-section h2::after { /* إخفاء الخط السفلي لـ h2 هنا */
+    content: none;
 }
 
-.hero .tagline {
+.hero-section .tagline {
     font-size: 1.5em;
     color: var(--primary-color);
     margin-bottom: 25px;
     font-weight: 600;
 }
 
-/*
- قسم "عن Technost"
-*/
+/* Splash Screen */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3F4771, #B28BC7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#splash-screen img {
+    max-width: 250px;
+    height: auto;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* تأثيرات الظهور عند التمرير (Scroll Reveal Animations) */
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
+}
+
+.fade-in-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* قسم "عن Technost" */
 .about-us-section {
     padding: 60px 0;
     background-color: var(--white);
 }
 
 .about-us-section h2 {
-    text-align: center;
     color: var(--primary-color);
     margin-bottom: 40px;
 }
@@ -326,30 +337,9 @@ header nav ul li a:hover::after {
     text-align: right;
 }
 
-/* ------------------------------------- */
-/* تأثيرات الظهور عند التمرير (Scroll Reveal Animations) */
-/* ------------------------------------- */
-
-/* الحالة الأولية للعناصر التي ستظهر بالحركة */
-.fade-in-on-scroll {
-    opacity: 0;
-    transform: translateY(20px); /* يبدأ من 20 بكسل للأسفل */
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* حركة سلسة */
-    will-change: opacity, transform; /* تحسين الأداء */
-}
-
-/* عندما يتم إضافة كلاس 'is-visible' بواسطة JavaScript */
-.fade-in-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0); /* يعود إلى مكانه الأصلي */
-}
-
-
-/*
- قسم "لماذا نحن؟" (Why Us Section) - New Section Styles
-*/
+/* قسم "لماذا نحن؟" (Why Us Section) */
 .why-us-section {
-    background-color: var(--bg-light); /* Light background for contrast */
+    background-color: var(--bg-light);
     padding: 60px 0;
     border-top: 1px solid var(--border-color);
 }
@@ -367,18 +357,18 @@ header nav ul li a:hover::after {
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* تحديث للانتقال على الخلفية */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .why-us-item:hover {
-    transform: translateY(-5px) scale(1.02); /* تحريك للأعلى وتكبير طفيف */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* ظل أكبر وأوضح */
-    background-color: #f0f0f0; /* تغيير لون الخلفية عند التحويم */
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background-color: #f0f0f0;
 }
 
 .why-us-item i {
-    font-size: 48px; /* Size of the icons */
-    color: var(--primary-color); /* Color of the icons */
+    font-size: 48px;
+    color: var(--primary-color);
     margin-bottom: 20px;
 }
 
@@ -394,12 +384,9 @@ header nav ul li a:hover::after {
     margin-bottom: 0;
 }
 
-
-/*
- قسم الخدمات (Skills Section)
-*/
+/* قسم الخدمات (Skills Section) */
 .skills-section {
-    background-color: var(--white); /* Changed to white for consistency with About Us */
+    background-color: var(--white);
     padding: 60px 0;
     border-top: 1px solid var(--border-color);
 }
@@ -411,7 +398,7 @@ header nav ul li a:hover::after {
 }
 
 .skill-item {
-    background-color: var(--bg-light); /* Light background for skill items */
+    background-color: var(--bg-light);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
@@ -422,16 +409,14 @@ header nav ul li a:hover::after {
 .skill-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-    background-color: #e9ecef; /* تغيير لون الخلفية عند التحويم */
+    background-color: #e9ecef;
 }
 
-/* Icon styling for services */
 .skill-item i {
     font-size: 48px;
-    color: var(--accent-color); /* Using accent color for service icons */
+    color: var(--accent-color);
     margin-bottom: 20px;
 }
-
 
 .skill-item h3 {
     color: var(--primary-color);
@@ -444,9 +429,7 @@ header nav ul li a:hover::after {
     color: var(--text-color);
 }
 
-/*
- قسم المشاريع (Portfolio Section) - تم تعديله ليكون "الحلول الذكية"
-*/
+/* قسم المشاريع (Portfolio Section) - الحلول الذكية */
 .portfolio-section {
     padding: 60px 0;
     background-color: var(--white);
@@ -454,13 +437,11 @@ header nav ul li a:hover::after {
 }
 
 .portfolio-section h2 {
-    text-align: center;
     color: var(--primary-color);
     margin-bottom: 20px;
 }
 
-.portfolio-section>p {
-    /* الوصف تحت العنوان مباشرة */
+.portfolio-section > p {
     text-align: center;
     margin-bottom: 40px;
     font-size: 1.1em;
@@ -469,8 +450,6 @@ header nav ul li a:hover::after {
 
 .project-grid {
     display: grid;
-    /* تم تعديل هذا ليسمح لعنصر بالامتداد على عمودين */
-    /* إذا كنت تتوقع 3 أعمدة بشكل عام، هذا سيجعل عنصر featured-case-study يمتد على 2 من 3 */
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
 }
@@ -481,6 +460,8 @@ header nav ul li a:hover::after {
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; /* لتنظيم المحتوى داخله */
+    flex-direction: column; /* لتكديس الصورة ثم النص */
 }
 
 .project-item:hover {
@@ -490,19 +471,18 @@ header nav ul li a:hover::after {
 
 /* الكلاس الجديد لدراسة الحالة المميزة */
 .featured-case-study {
-    grid-column: span 2;
-    /* يجعل العنصر يمتد على عمودين */
-    background: linear-gradient(135deg, #3F4771, #B28BC7); /* تدرج لوني مميز */
+    grid-column: span 2; /* يجعل العنصر يمتد على عمودين */
+    background: linear-gradient(135deg, #3F4771, #B28BC7);
     color: var(--white);
-    transform: scale(1.01); /* تكبير طفيف ليبرز */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25); /* ظل أقوى */
+    transform: scale(1.01);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     position: relative;
     overflow: hidden;
 }
 
 .featured-case-study:hover {
-    transform: translateY(-8px) scale(1.02); /* تحريك وتكبير أكبر عند التحويم */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.35); /* ظل أكبر عند التحويم */
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
 }
 
 /* شارة "مميز" */
@@ -511,14 +491,14 @@ header nav ul li a:hover::after {
     position: absolute;
     top: 15px;
     right: 15px;
-    background-color: #FFD700; /* لون ذهبي */
+    background-color: #FFD700;
     color: #333;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.9em;
     font-weight: bold;
     z-index: 1;
-    animation: fadeInScale 0.5s ease-out; /* تأثير ظهور على الشارة */
+    animation: fadeInScale 0.5s ease-out;
 }
 
 @keyframes fadeInScale {
@@ -530,32 +510,40 @@ header nav ul li a:hover::after {
 /* تخصيص صورة دراسة الحالة المميزة لجعلها أكبر */
 .featured-case-study img {
     height: 300px;
-    /* تكبير ارتفاع الصورة قليلاً */
     object-fit: cover;
-    mix-blend-mode: luminosity; /* تأثير بصري لجعل الصورة تتناسب مع التدرج */
+    mix-blend-mode: luminosity;
     transition: mix-blend-mode 0.3s ease;
 }
 
 .featured-case-study:hover img {
-    mix-blend-mode: normal; /* عند التحويم، تعود الصورة لألوانها الأصلية */
+    mix-blend-mode: normal;
 }
 
 /* تخصيص محتوى دراسة الحالة المميزة */
+.featured-case-study .project-info { /* إضافة الكلاس project-info هنا */
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
 .featured-case-study h3 {
     font-size: 1.8em;
-    /* تكبير حجم العنوان */
-    color: var(--white); /* لون العنوان أبيض */
+    color: var(--white);
+    margin-bottom: 10px; /* Adjust margin */
 }
 
 .featured-case-study p {
     font-size: 1.15em;
-    /* تكبير حجم النص */
-    color: rgba(255, 255, 255, 0.9); /* لون النص أبيض شفاف */
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px; /* Adjust margin */
 }
 
 .featured-case-study .btn-small {
     background-color: var(--white);
     color: var(--primary-color);
+    align-self: flex-start; /* Ensure alignment in featured card */
 }
 
 .featured-case-study .btn-small:hover {
@@ -566,48 +554,52 @@ header nav ul li a:hover::after {
 .project-item img {
     width: 100%;
     height: 220px;
-    /* الارتفاع الافتراضي لبقية الصور */
     object-fit: cover;
     display: block;
     border-bottom: 1px solid var(--border-color);
 }
 
+.project-item .project-info { /* إضافة هذا الكلاس ليكون المحتوى مرناً */
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 .project-item h3 {
     color: var(--bg-dark);
     font-size: 1.5em;
-    margin: 20px 20px 10px;
+    margin-bottom: 10px; /* Adjust margin */
+    flex-grow: 1; /* Allow title to take space */
 }
 
 .project-item p {
     font-size: 1em;
     color: var(--text-color);
-    margin: 0 20px 20px;
+    margin-bottom: 20px; /* Adjust margin */
     line-height: 1.7;
 }
 
 .project-item .btn-small {
-    margin: 0 20px 20px;
     background-color: var(--accent-color);
     color: var(--white);
+    align-self: flex-start; /* Align button to start in RTL */
 }
 
 .project-item .btn-small:hover {
     background-color: #218838;
 }
 
-/*
- قسم التواصل (Contact Section)
-*/
+/* قسم التواصل (Contact Section) */
 .contact-section {
     background-color: var(--bg-dark);
     color: var(--white);
     padding: 60px 0;
     text-align: center;
-    position: relative; /* لتمكين تأثير الخلفية */
-    overflow: hidden; /* لمنع تجاوز العناصر */
+    position: relative;
+    overflow: hidden;
 }
 
-/* New: Subtle background pattern for contact section */
 .contact-section::before {
     content: '';
     position: absolute;
@@ -616,11 +608,10 @@ header nav ul li a:hover::after {
     width: 100%;
     height: 100%;
     background-image: url('data:image/svg+xml,%3Csvg width="6" height="6" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C92AC" fill-opacity="0.1" fill-rule="evenodd"%3E%3Cpath d="M5 0h1L0 6V5zM6 5v1H0z"/%3E%3C/g%3E%3C/svg%3E');
-    opacity: 0.5; /* شفافية النمط */
+    opacity: 0.5;
     z-index: 0;
-    pointer-events: none; /* لا يجب أن يتفاعل مع الماوس */
+    pointer-events: none;
 }
-
 
 .contact-section h2 {
     color: var(--white);
@@ -642,19 +633,20 @@ header nav ul li a:hover::after {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    background-color: rgba(255, 255, 255, 0.05); /* خلفية نموذج شفافة قليلاً */
+    background-color: rgba(255, 255, 255, 0.05);
     padding: 30px;
-    border-radius: 10px; /* حواف أكثر دائرية */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* ظل أقوى */
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 1;
+    text-align: right; /* Ensure form content is right-aligned */
 }
 
 .contact-section form input[type="text"],
 .contact-section form input[type="email"],
 .contact-section form textarea {
     padding: 12px 15px;
-    border: 1px solid rgba(178, 139, 199, 0.5); /* border color slightly transparent primary */
+    border: 1px solid rgba(178, 139, 199, 0.5);
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--white);
@@ -679,13 +671,14 @@ header nav ul li a:hover::after {
 .contact-section .btn {
     width: auto;
     align-self: center;
+    margin-top: 20px; /* Add margin top to button */
 }
 
 .social-links {
     margin-top: 30px;
-    display: flex; /* Ensure horizontal alignment for social links */
-    justify-content: center; /* Center the links */
-    gap: 20px; /* Space between links */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
     position: relative;
     z-index: 1;
 }
@@ -694,7 +687,7 @@ header nav ul li a:hover::after {
     color: var(--white);
     font-size: 1.1em;
     transition: color 0.3s ease;
-    display: flex; /* Allows icon and text to align */
+    display: flex;
     align-items: center;
 }
 
@@ -702,15 +695,12 @@ header nav ul li a:hover::after {
     color: var(--primary-color);
 }
 
-/* Icon styling for social links */
 .social-links a i {
-    margin-left: 10px; /* Space between icon and text in RTL */
-    font-size: 1.3em; /* Slightly larger icon */
+    margin-left: 10px;
+    font-size: 1.3em;
 }
 
-/*
- الفوتر
-*/
+/* الفوتر */
 footer {
     background-color: #222;
     color: var(--white);
@@ -719,14 +709,13 @@ footer {
     font-size: 0.9em;
 }
 
-/*
- تنسيقات خاصة بصفحة دراسة الحالة (Case Study Page)
-*/
+/* تنسيقات خاصة بصفحة المدونة (Blog Page Specific Styles) */
 .case-study-hero {
     background-color: var(--bg-dark);
     color: var(--white);
     text-align: center;
     padding: 80px 0 40px;
+    margin-top: var(--header-height); /* إزاحة المحتوى لأسفل الهيدر الثابت */
 }
 
 .case-study-hero h1 {
@@ -780,15 +769,30 @@ footer {
 }
 
 .case-study-section ul {
-    list-style: disc;
-    margin-right: 25px;
-    margin-bottom: 20px;
+    list-style: none; /* إزالة الـ bullet الافتراضي */
+    margin-bottom: 25px;
+    padding: 0;
+    margin-right: 20px;
 }
 
 .case-study-section ul li {
+    position: relative;
+    padding-right: 25px; /* مسافة للـ bullet المخصص */
     margin-bottom: 10px;
     line-height: 1.6;
 }
+
+.case-study-section ul li::before { /* custom bullet point for ul li */
+    content: '\f00c'; /* Font Awesome check icon */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    top: 5px;
+    font-size: 0.9em;
+}
+
 
 .case-study-img {
     max-width: 100%;
@@ -803,16 +807,13 @@ footer {
     background-color: var(--bg-light);
 }
 
-/* تنسيق شعار الشركة في الهيرو سيكشن */
 .company-logo {
     width: 200px;
     height: auto;
     margin-bottom: 20px;
 }
 
-/*
- تنسيقات المدونة
-*/
+/* تنسيقات المدونة (Blog Posts) */
 .blog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -825,6 +826,8 @@ footer {
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .blog-post-card:hover {
@@ -840,34 +843,64 @@ footer {
     border-bottom: 1px solid var(--border-color);
 }
 
+.blog-post-card .card-content { /* إضافة كلاس المحتوى */
+    padding: 20px;
+    flex-grow: 1; /* للسماح للمحتوى بالتوسع ودفع الزر للأسفل */
+    display: flex;
+    flex-direction: column;
+}
+
 .blog-post-card h3 {
     color: var(--bg-dark);
     font-size: 1.4em;
-    margin: 20px 20px 10px;
+    margin-bottom: 10px;
     line-height: 1.4;
+    flex-grow: 1; /* السماح للعنوان بأخذ المساحة المتاحة */
 }
 
 .blog-post-card .post-meta {
     font-size: 0.85em;
     color: var(--secondary-color);
-    margin: 0 20px 10px;
+    margin-bottom: 10px; /* تعديل الهامش */
 }
 
 .blog-post-card p {
     font-size: 0.95em;
     color: var(--text-color);
-    margin: 0 20px 20px;
+    margin-bottom: 20px;
     line-height: 1.6;
 }
 
 .blog-post-card .btn-small {
-    margin: 0 20px 20px;
     background-color: var(--primary-color);
+    align-self: flex-start; /* محاذاة الزر لليمين في RTL */
+    margin-top: auto; /* يدفع الزر للأسفل */
 }
 
-/*
- تنسيقات صفحة الفريق
-*/
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 10px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 10px 15px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    color: var(--primary-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a.active,
+.pagination a:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* تنسيقات صفحة الفريق */
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -916,10 +949,15 @@ footer {
     margin-bottom: 20px;
 }
 
+.member-social {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
 .member-social a {
     color: var(--secondary-color);
     font-size: 1.5em;
-    margin: 0 10px;
     transition: color 0.3s ease;
 }
 
@@ -928,67 +966,346 @@ footer {
 }
 
 
-/* الاستجابة للأجهزة الصغيرة */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.5em;
-    }
+/* تنسيقات صفحة المقال الواحد (Single Post Page Styles) */
+.single-post-hero {
+    background-size: cover;
+    background-position: center;
+    color: var(--white);
+    text-align: center;
+    padding: 100px 0;
+    margin-top: var(--header-height); /* إزاحة المحتوى لأسفل الهيدر الثابت */
+    position: relative;
+    z-index: 1;
+}
 
-    h2 {
-        font-size: 2em;
-    }
+.single-post-hero::before { /* Overlay for better text readability */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
+    z-index: -1;
+}
 
-    header .container {
-        flex-direction: column;
-    }
+.single-post-hero h1 {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: var(--white);
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.single-post-hero .post-meta {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.single-post-content {
+    padding: 60px 0;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+}
+
+.single-post-content .container {
+    max-width: 800px; /* جعل محتوى المقال أضيق للقراءة */
+    width: 90%;
+}
+
+.single-post-content h2 {
+    color: var(--primary-color);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 2em;
+    position: relative;
+    padding-bottom: 10px;
+    text-align: right; /* Override center alignment for h2 */
+}
+
+.single-post-content h2::after { /* Underline effect */
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    /* No transform needed as it's aligned to right */
+}
+
+.single-post-content h3 {
+    color: var(--bg-dark);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+}
+
+.single-post-content p {
+    margin-bottom: 25px;
+    line-height: 1.8;
+    font-size: 1.1em;
+}
+
+.single-post-content ul {
+    list-style: none;
+    margin-bottom: 25px;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.single-post-content ul li {
+    position: relative;
+    padding-right: 25px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.single-post-content ul li::before {
+    content: '\f00c';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--primary-color);
+    position: absolute;
+    right: 0;
+    top: 5px;
+    font-size: 0.9em;
+}
+
+.single-post-content .post-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 30px auto;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.single-post-content strong {
+    color: var(--primary-color);
+}
+
+.back-to-blog {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.back-to-blog .btn {
+    padding: 12px 25px;
+    font-size: 1.1em;
+}
+
+
+/* Responsive Design - الاستجابة للأجهزة الصغيرة */
+@media (max-width: 992px) {
+    h1 { font-size: 2.8em; }
+    h2 { font-size: 2.2em; }
+    h3 { font-size: 1.6em; }
 
     header nav ul {
-        flex-direction: column;
-        margin-top: 15px;
-        gap: 10px;
+        gap: 20px;
+    }
+    header .logo img {
+        height: 45px;
     }
 
-    header nav ul li {
-        margin: 10px 0;
-    }
-
-    .hero {
-        padding: 60px 0;
-    }
-
-    .hero h2 {
+    .hero-section h2 {
         font-size: 2.5em;
     }
-
-    .hero .profile-pic {
-        width: 150px;
-        height: 150px;
+    .hero-section .tagline {
+        font-size: 1.3em;
     }
 
+    .contact-section form {
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Header adjustments for mobile */
+    header {
+        height: auto; /* Allow header height to adjust */
+        padding: 15px 0;
+    }
+    header .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    header .logo {
+        font-size: 2em;
+        margin-bottom: 0;
+    }
+    header .logo img {
+        height: 40px;
+        margin-left: 10px;
+    }
+    header nav {
+        width: 100%;
+    }
+    header nav ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 0; /* Remove gap for full-width links */
+        margin-top: 15px;
+    }
+    header nav ul li {
+        width: 100%; /* Make list items take full width */
+        margin-bottom: 5px;
+    }
+    header nav ul li:last-child {
+        margin-bottom: 0;
+    }
+    header nav ul li a {
+        display: block; /* Make links fill their parent li */
+        padding: 12px 0; /* Increase padding for touch targets */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Add subtle border between links */
+        text-align: center; /* Center link text */
+    }
+    header nav ul li:last-child a {
+        border-bottom: none; /* Remove border from last link */
+    }
+    header nav ul li a::after { /* Hide underline on mobile nav links */
+        content: none;
+    }
+
+
+    /* General section padding for mobile */
+    section {
+        padding: 40px 0;
+    }
+    .container {
+        width: 95%; /* Adjust container width for smaller screens */
+    }
+
+    /* Heading sizes for mobile */
+    h1 { font-size: 2.2em; }
+    h2 { font-size: 1.8em; }
+    h3 { font-size: 1.4em; }
+
+    /* Hero section for mobile */
+    .hero-section {
+        padding: 60px 0;
+        margin-top: var(--header-height); /* Still offset by initial header height */
+    }
+    .hero-section h2 {
+        font-size: 2em;
+    }
+    .hero-section .tagline {
+        font-size: 1.1em;
+    }
+    .hero-section .profile-pic {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Grids for mobile - stack columns */
     .skills-grid,
     .project-grid,
     .blog-grid,
     .team-grid,
-    .why-us-grid { /* Added why-us-grid here */
+    .why-us-grid {
         grid-template-columns: 1fr;
     }
 
-    /* تأكد من أن دراسة الحالة المميزة تعود إلى عمود واحد في الشاشات الصغيرة */
+    /* Featured case study on mobile */
     .featured-case-study {
         grid-column: span 1;
+        transform: none; /* Remove scale effect */
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25); /* Adjusted shadow */
+    }
+    .featured-case-study:hover { /* Disable hover scale on mobile */
+        transform: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    .featured-case-study img {
+        height: 200px; /* Smaller image on mobile */
+    }
+    .featured-case-study h3 {
+        font-size: 1.6em;
+    }
+    .featured-case-study p {
+        font-size: 1em;
+    }
+    .featured-case-study::before { /* Adjust badge position for mobile */
+        top: 10px;
+        right: 10px;
+        font-size: 0.8em;
+        padding: 4px 8px;
     }
 
-    .featured-case-study img {
-        height: 220px; /* Smaller image on small screens */
+    /* Project/Blog card images on mobile */
+    .project-item img, .blog-post-card img {
+        height: 180px;
     }
+
+    /* Contact form on mobile */
+    .contact-section form {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .social-links {
+        flex-direction: column; /* Stack social links vertically */
+        gap: 10px;
+    }
+    .social-links a {
+        font-size: 1em;
+        justify-content: center; /* Center each social link */
+    }
+
+    /* Single post page for mobile */
+    .single-post-hero {
+        padding: 60px 0;
+    }
+    .single-post-hero h1 {
+        font-size: 2em;
+    }
+    .single-post-hero .post-meta {
+        font-size: 0.9em;
+    }
+    .single-post-content h2 {
+        font-size: 1.5em;
+        padding-bottom: 5px;
+    }
+    .single-post-content h2::after {
+        width: 40px;
+        height: 2px;
+    }
+    .single-post-content p,
+    .single-post-content ul li {
+        font-size: 0.95em;
+    }
+    .single-post-content ul {
+        margin-right: 15px;
+    }
+    .single-post-content ul li::before {
+        font-size: 0.8em;
+        top: 3px;
+    }
+    .back-to-blog .btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
 }
 
 @media (max-width: 480px) {
-    .contact-section form {
-        padding: 20px;
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    h3 { font-size: 1.3em; }
+
+    .hero-section h2 {
+        font-size: 1.8em;
     }
-    .btn {
-        padding: 10px 20px;
-        font-size: 0.9em;
+    .hero-section .tagline {
+        font-size: 1em;
+    }
+    .hero-section .profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .btn, .btn-small {
+        padding: 8px 18px;
+        font-size: 0.85em;
     }
 }
