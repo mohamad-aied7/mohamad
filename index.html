@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Technost - نبرمج المستقبل</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="style.css"> 
+    
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -17,13 +21,21 @@
     <header>
         <div class="container">
             <h1 class="logo">
-                <img src="Technost4-removebg-preview.png" alt="شعار Technost" style="height: 50px; vertical-align: middle; margin-left: 10px;">
+                <img src="Technost4-removebg-preview.png" alt="شعار Technost">
                 Technost
             </h1>
-            <nav>
+            
+            <button class="menu-toggle" aria-label="Toggle Navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <nav id="main-nav">
                 <ul>
                     <li><a href="#about-us">عن Technost</a></li>
-                    <li><a href="#why-us">لماذا نحن؟</a></li> <li><a href="#services">خدماتنا</a></li>
+                    <li><a href="#why-us">لماذا نحن؟</a></li>
+                    <li><a href="#services">خدماتنا</a></li>
                     <li><a href="#solutions">حلولنا الذكية</a></li>
                     <li><a href="blog.html">المدونة</a></li>
                     <li><a href="team.html">فريقنا</a></li>
@@ -33,9 +45,18 @@
         </div>
     </header>
 
-    <section id="about-us" class="about-us-section" style="padding-top: 20px; margin-top: 0;">
+    <section id="hero" class="hero-section">
         <div class="container">
-            <img src="Technost4-removebg-preview.png" alt="شعار Technost" style="max-width: 250px; display: block; margin: 0 auto 20px;">
+            <img src="Technost4-removebg-preview.png" alt="صورة الملف الشخصي" class="profile-pic">
+            <h2>مرحباً بك في Technost</h2>
+            <p class="tagline">نبرمج المستقبل من خلال حلول تقنية مبتكرة</p>
+            <a href="#contact" class="btn">ابدأ مشروعك معنا</a>
+        </div>
+    </section>
+
+    <section id="about-us" class="about-us-section fade-in-on-scroll">
+        <div class="container">
+            <img src="Technost4-removebg-preview.png" alt="شعار Technost">
             <h2>عن Technost</h2>
             <p>Technost هي شركة عراقية ناشئة متخصصة في التحول الرقمي، نساعد الشركات الناشئة والمتوسطة على الانتقال من الأنظمة التقليدية إلى حلول تكنولوجية حديثة ومبتكرة. نُقدّم خدمات متكاملة في تطوير الأنظمة، تصميم وتطوير المواقع والتطبيقات، بالإضافة إلى حلول الذكاء الاصطناعي وتحليل البيانات.</p>
             <p>نسعى لبناء مستقبل رقمي متكامل في العراق من خلال تقديم حلول ذكية بأسعار تنافسية. رؤيتنا تتمثل في سد الفجوة التقنية في السوق العراقي وتقديم قيمة حقيقية لعملائنا، مما يمكّنهم من النمو والازدهار في العصر الرقمي.</p>
@@ -44,7 +65,7 @@
         </div>
     </section>
 
-    <section id="why-us" class="why-us-section">
+    <section id="why-us" class="why-us-section fade-in-on-scroll">
         <div class="container">
             <h2>لماذا تختار Technost؟</h2>
             <div class="why-us-grid">
@@ -72,7 +93,7 @@
         </div>
     </section>
 
-    <section id="services" class="skills-section">
+    <section id="services" class="skills-section fade-in-on-scroll">
         <div class="container">
             <h2>خدماتنا الرئيسية</h2>
             <div class="skills-grid">
@@ -110,7 +131,7 @@
         </div>
     </section>
 
-    <section id="solutions" class="portfolio-section">
+    <section id="solutions" class="portfolio-section fade-in-on-scroll">
         <div class="container">
             <h2>حلولنا الذكية</h2>
             <p>في Technost، نترجم التكنولوجيا إلى حلول عملية ومبتكرة تُحدث فرقًا حقيقيًا في أعمالكم، وتساهم في تحقيق أهدافكم.</p>
@@ -137,7 +158,7 @@
         </div>
     </section>
 
-    <section id="contact" class="contact-section">
+    <section id="contact" class="contact-section fade-in-on-scroll">
         <div class="container">
             <h2>تواصل معنا للاستفسار</h2>
             <p>نحن هنا لمساعدتكم في رحلتكم نحو التحول الرقمي. دعنا نتحدث عن كيف يمكن لـ Technost أن تبرمج مستقبل شركتك، وتقدم لك الحلول التي تحتاجها للنجاح.</p>

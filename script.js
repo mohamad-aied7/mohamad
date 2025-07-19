@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentYearSpan.textContent = new Date().getFullYear();
     }
 
-    const currentYear2Span = document.getElementById('currentYear2'); // لصفحة دراسة الحالة
+    const currentYear2Span = document.getElementById('currentYear2'); // لصفحة دراسة الحالة (إذا كانت موجودة)
     if (currentYear2Span) {
         currentYear2Span.textContent = new Date().getFullYear();
     }
@@ -37,10 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.getElementById(targetId);
 
             if (targetElement) {
+                // For smooth scrolling to a section, adjust for fixed header height
+                const headerOffset = document.querySelector('header')?.offsetHeight || 0;
+                const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                const offsetPosition = elementPosition - headerOffset;
+
                 window.scrollTo({
-                    top: targetElement.offsetTop - (document.querySelector('header')?.offsetHeight || 0), // يتم طرح ارتفاع الهيدر
+                    top: offsetPosition,
                     behavior: 'smooth'
                 });
+
+                // Close mobile menu if open after clicking a link
+                const mainNav = document.getElementById('main-nav');
+                const menuToggle = document.querySelector('.menu-toggle');
+                if (mainNav && mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                }
             }
         });
     });
@@ -100,21 +114,55 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('is-visible'); // أضف الكلاس بدلاً من تعديل الـ style مباشرة
                 observer.unobserve(entry.target); // إيقاف المراقبة بعد الظهور مرة واحدة
             }
         });
     }, observerOptions);
 
     // تطبيق التأثير على الأقسام الرئيسية في الصفحة
-    document.querySelectorAll('section').forEach(section => {
-        // لا نريد تطبيق التأثير على الهيدر أو الفوتر
-        if (!section.classList.contains('hero') && !section.classList.contains('case-study-hero') && !section.classList.contains('contact-section') && section.id !== 'hero' && section.tagName !== 'HEADER' && section.tagName !== 'FOOTER') {
-            section.style.opacity = 0;
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+    document.querySelectorAll('section.fade-in-on-scroll').forEach(section => {
+        // تأكد أن هذا الكود لا يطبق على splash-screen أو الأقسام التي لا تريد أن تختفي بالبداية
+        // الأقسام مثل Hero Section لا تحتاج لأن تكون fade-in-on-scroll لأنها تكون مرئية مباشرة
+        // لذلك، يستهدف هذا الكود فقط الأقسام التي تحتوي على الكلاس 'fade-in-on-scroll'
+        // ولا تستثني أي كلاسات أخرى مثل 'contact-section' عن طريق الخطأ.
+        if (section.id !== 'splash-screen' && section.id !== 'hero') { // استبعد الـ splash-screen و الـ hero
             sectionObserver.observe(section);
+        }
+    });
+
+    // 5. Hamburger Menu Toggle for Mobile
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    // لا حاجة لتعريف 'header' هنا مرة أخرى، فهو معرف عالمياً في هذا النطاق.
+
+    if (menuToggle && mainNav) {
+        menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            document.body.classList.toggle('no-scroll'); // Optional: Add class to body to prevent scrolling when menu is open
+        });
+
+        // Close menu when a navigation link is clicked (for smooth scroll)
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                // Check if the menu is open before trying to close
+                if (mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                }
+            });
+        });
+    }
+
+    // 6. Header Scrolled Effect
+    const header = document.querySelector('header'); // يجب تعريفها هنا لتكون متاحة
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) { // After scrolling 50px
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
         }
     });
 
