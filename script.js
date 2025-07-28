@@ -125,8 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // تأكد أن هذا الكود لا يطبق على splash-screen أو الأقسام التي لا تريد أن تختفي بالبداية
         // الأقسام مثل Hero Section لا تحتاج لأن تكون fade-in-on-scroll لأنها تكون مرئية مباشرة
         // لذلك، يستهدف هذا الكود فقط الأقسام التي تحتوي على الكلاس 'fade-in-on-scroll'
-        // ولا تستثني أي كلاسات أخرى مثل 'contact-section' عن طريق الخطأ.
-        if (section.id !== 'splash-screen' && section.id !== 'hero') { // استبعد الـ splash-screen و الـ hero
+        // ولا تستثني أي كلاسات أخرى عن طريق الخطأ.
+        if (section.id !== 'splash-screen' && section.id !== 'hero') {
             sectionObserver.observe(section);
         }
     });
@@ -134,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 5. Hamburger Menu Toggle for Mobile
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.getElementById('main-nav');
-    // لا حاجة لتعريف 'header' هنا مرة أخرى، فهو معرف عالمياً في هذا النطاق.
 
     if (menuToggle && mainNav) {
         menuToggle.addEventListener('click', () => {
@@ -157,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 6. Header Scrolled Effect
-    const header = document.querySelector('header'); // يجب تعريفها هنا لتكون متاحة
+    const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) { // After scrolling 50px
             header.classList.add('scrolled');
@@ -165,5 +164,99 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('scrolled');
         }
     });
+
+    // *******************************************************************
+    // ************* منطق عرض أنظمة ERP في إطارات لابتوب (محدث) *************
+    // *******************************************************************
+
+    // Intersection Observer لتشغيل حركة دخول اللابتوب عند التمرير
+    const laptopContainers = document.querySelectorAll('.laptop-container');
+
+    const laptopObserverOptions = {
+        root: null, // viewport
+        rootMargin: '0px',
+        threshold: 0.2 // عندما يكون 20% من العنصر مرئياً
+    };
+
+    const laptopObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // قم بتطبيق الحركة المتتابعة
+                // بدلاً من entry.target.parentElement.children، نستخدم querySelectorAll ضمن القسم
+                // لضمان الحصول على جميع اللابتوبات داخل قسم الـ ERP المحدد
+                const erpSection = document.getElementById('our-erp-showcase');
+                if (erpSection) {
+                    const elements = erpSection.querySelectorAll('.laptop-container');
+                    elements.forEach((el, index) => {
+                        setTimeout(() => {
+                            el.classList.add('animate-in');
+                        }, index * 150); // تأخير 150 مللي ثانية لكل عنصر
+                    });
+                }
+                // توقف عن مراقبة العنصر الأب (الشبكة) بعد تشغيل الحركة
+                observer.unobserve(entry.target);
+            }
+        });
+    }, laptopObserverOptions);
+
+    // راقب العنصر الأب الذي يحتوي على جميع اللابتوبات (grid)
+    const erpShowcaseSection = document.getElementById('our-erp-showcase');
+    if (erpShowcaseSection) {
+        laptopObserver.observe(erpShowcaseSection);
+    }
+    
+    // *******************************************************************
+    // ************* منطق النافذة المنبثقة (Modal Overlay) *************
+    // *******************************************************************
+    const erpModalOverlay = document.getElementById('erp-modal-overlay');
+    const erpModalIframe = document.getElementById('erp-modal-iframe');
+    const closeModalBtn = document.querySelector('.close-modal-btn');
+    const loadingOverlayModal = document.querySelector('.loading-overlay-modal');
+
+    // فتح النافذة المنبثقة عند الضغط على أي لابتوب
+    laptopContainers.forEach(laptop => {
+        laptop.addEventListener('click', function() {
+            const erpSrc = this.getAttribute('data-erp-src');
+            if (erpSrc) {
+                // إظهار تراكب التحميل في المودال
+                loadingOverlayModal.classList.remove('hidden');
+                erpModalIframe.classList.remove('loaded'); // إخفاء الـ iframe القديم
+
+                // تعيين مصدر الـ iframe
+                erpModalIframe.src = erpSrc;
+                
+                // إظهار النافذة المنبثقة
+                erpModalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // منع التمرير في الخلفية
+            }
+        });
+    });
+
+    // إخفاء تراكب التحميل وإظهار الـ iframe بعد تحميل المحتوى
+    erpModalIframe.onload = () => {
+        loadingOverlayModal.classList.add('hidden');
+        erpModalIframe.classList.add('loaded');
+    };
+
+    // إغلاق النافذة المنبثقة عند الضغط على زر الإغلاق
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            erpModalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // إعادة التمرير في الخلفية
+            erpModalIframe.src = ''; // مسح مصدر الـ iframe لإيقاف المحتوى
+        });
+    }
+
+    // إغلاق النافذة المنبثقة عند الضغط على مفتاح ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && erpModalOverlay.classList.contains('active')) {
+            erpModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            erpModalIframe.src = '';
+        }
+    });
+    // *******************************************************************
+    // ************* نهاية منطق النافذة المنبثقة *************
+    // *******************************************************************
 
 });

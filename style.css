@@ -11,6 +11,14 @@
 
     --font-family-primary: 'Cairo', sans-serif; /* خط عربي جميل شائع */
     --header-height: 70px; /* ارتفاع ثابت للهيدر للشاشات الكبيرة */
+
+    /* ألوان جديدة للابتوب Mac الواقعي */
+    --mac-body-color: #E0E0E0; /* فضي فاتح */
+    --mac-dark-gray: #333333; /* رمادي داكن للنصوص أو التفاصيل */
+    --mac-bezel-color: #1A1A1A; /* أسود للشاشة والإطار الداخلي */
+    --mac-keyboard-color: #2C2C2C; /* لون أزرار لوحة المفاتيح */
+    --mac-trackpad-color: #4A4A4A; /* لون التراكباد */
+    --mac-hinge-color: #555; /* لون المفصلة */
 }
 
 /* Global Styles - إعادة تعيين CSS أساسية */
@@ -768,17 +776,32 @@ footer {
 
 /* تنسيقات خاصة بصفحة المدونة (Blog Page Specific Styles) */
 .case-study-hero {
-    background-color: var(--bg-dark);
+    background-size: cover;
+    background-position: center;
     color: var(--white);
     text-align: center;
     padding: 80px 0 40px;
     /* margin-top: var(--header-height); -- تم إزالة هذا، لأن body لديه padding-top */
+    position: relative;
+    z-index: 1;
+}
+
+.case-study-hero::before { /* Overlay for better text readability */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
+    z-index: -1;
 }
 
 .case-study-hero h1 {
-    color: var(--white);
-    font-size: 2.5em;
+    font-size: 3em;
     margin-bottom: 10px;
+    color: var(--white);
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
 .case-study-hero .subtitle {
@@ -1023,133 +1046,248 @@ footer {
 }
 
 
-/* تنسيقات صفحة المقال الواحد (Single Post Page Styles) */
-.single-post-hero {
-    background-size: cover;
-    background-position: center;
-    color: var(--white);
-    text-align: center;
-    padding: 100px 0;
-    /* margin-top: var(--header-height); -- تم إزالة هذا، لأن body لديه padding-top */
-    position: relative;
-    z-index: 1;
+/* ******************************************************************* */
+/* ************* تصميم إطارات اللابتوب الواقعي والموشن ديزاين ************* */
+/* ******************************************************************* */
+
+.laptop-container {
+    opacity: 0;
+    transform: translateY(50px) rotateX(15deg); /* تبدأ من الأسفل قليلاً ومائلة */
+    transform-origin: bottom center; /* نقطة الدوران من الأسفل */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, box-shadow 0.3s ease-out; /* زيادة مدة الانتقال */
+    perspective: 1000px; /* لتفعيل تأثيرات 3D على العناصر الفرعية */
+    background-color: transparent; /* إزالة الخلفية من هنا، ستكون في الأجزاء الداخلية */
+    box-shadow: none; /* إزالة الظل من هنا، سنضيفه يدوياً */
+    border-radius: 0; /* إزالة حواف مستديرة من هنا */
+
+    /* ***** التعديلات لتصغير حجم اللابتوبات بشكل عام ***** */
+    max-width: 380px; /* تحديد أقصى عرض للابتوب الواحد */
+    margin: 0 auto; /* توسيط اللابتوب داخل عموده في الشبكة */
+    /* ************************************************* */
+    cursor: pointer; /* للإشارة إلى أنه قابل للنقر */
 }
 
-.single-post-hero::before { /* Overlay for better text readability */
-    content: '';
+.laptop-container.animate-in {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg); /* تستقيم وتصل إلى مكانها */
+}
+
+/* جسم اللابتوب العلوي (الشاشة والإطار) - Mac Style */
+.laptop-bezel {
+    background-color: var(--mac-body-color); /* لون جسم اللابتوب (فضي/رمادي) */
+    padding: 20px; /* ***** تم زيادة هذا لجعل الشاشة أصغر بزيادة سمك الإطار ***** */
+    border-radius: 12px; /* حواف مستديرة أكثر تناسقاً */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2), /* ظل خفيف */
+                inset 0 0 0 1px rgba(255,255,255,0.3); /* إطار داخلي لامع */
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+    transform-style: preserve-3d;
+    position: relative;
+    z-index: 2;
+}
+
+/* الشاشة الفعلية داخل الإطار */
+.laptop-screen {
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    position: relative;
+    background-color: var(--mac-bezel-color); /* أسود للشاشة */
+    border-radius: 6px; /* حواف مستديرة للشاشة الداخلية */
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8); /* ظل داخلي للشاشة */
+    /* لا يوجد iframe هنا مباشرة بعد الآن */
+}
+
+/* الكاميرا/النتوء العلوي - Mac Style (نقطة صغيرة جداً) */
+.camera-notch {
+    position: absolute;
+    top: 5px; /* أعلى داخل الإطار العلوي */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px; /* حجم أصغر جداً */
+    height: 4px; /* حجم أصغر جداً */
+    background-color: var(--mac-dark-gray); /* لون داكن */
+    border-radius: 50%;
+    z-index: 3;
+}
+
+/* جسم اللابتوب السفلي (القاعدة مع لوحة المفاتيح والتراكباد) - Mac Style */
+.laptop-base {
+    background-color: var(--mac-body-color); /* نفس لون جسم اللابتوب العلوي */
+    height: 35px; /* ارتفاع أقل للقاعدة */
+    border-radius: 0 0 12px 12px; /* حواف مستديرة سفلية */
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4); /* ظل سفلي أكبر */
+    transform-origin: top;
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+    padding: 5px 15px; /* حشوة داخلية أقل للقاعدة */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgba(0,0,0,0.1); /* خط فاصل خفيف */
+    /* إضافة سمك بسيط للقاعدة */
+    transform: rotateX(-5deg); /* إمالة خفيفة للقاعدة لتبدو مفتوحة */
+    transform-origin: top center;
+}
+
+/* لوحة المفاتيح الوهمية - Mac Style */
+.laptop-base .keyboard {
+    width: 95%;
+    height: 18px; /* ارتفاع لوحة المفاتيح */
+    background-color: var(--mac-keyboard-color); /* لون لوحة المفاتيح */
+    border-radius: 2px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5); /* ظل داخلي للأزرار */
+    margin-top: 5px; /* مسافة من الأعلى */
+}
+
+/* التراكباد الوهمي - Mac Style */
+.laptop-base .trackpad {
+    width: 35%; /* عرض التراكباد */
+    height: 8px; /* ارتفاع التراكباد */
+    background-color: var(--mac-trackpad-color); /* لون التراكباد */
+    border-radius: 2px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5); /* ظل داخلي */
+    margin-top: 4px; /* مسافة من لوحة المفاتيح */
+}
+
+/* تأثير تحويم ثلاثي الأبعاد على اللابتوب */
+.laptop-container:hover .laptop-bezel {
+    transform: rotateX(3deg) translateY(-8px); /* دوران خفيف ورفع أكبر للشاشة */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3); /* ظل أكبر وأكثر وضوحاً */
+}
+
+.laptop-container:hover .laptop-base {
+    transform: rotateX(-3deg) translateY(0px); /* القاعدة لا تتحرك بنفس طريقة الشاشة */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* ظل القاعدة عند التحويم */
+}
+
+/* تأثير تحويم عام على الـ laptop-container لرفع الكل قليلاً */
+.laptop-container:hover {
+    transform: translateY(-5px) scale(1.01); /* رفع وتكبير خفيف للابتوب بالكامل */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15); /* ظل عام للابتوب المرتفع */
+}
+
+
+/* ******************************************************************* */
+/* ************* نافذة الـ ERP المنبثقة (Modal Overlay) ************* */
+/* ******************************************************************* */
+.erp-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* خلفية داكنة جداً وشفافة */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* ليكون فوق كل شيء */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-100%); /* تبدأ مخفية خارج الشاشة لليسار */
+    transition: opacity 0.4s ease-out, transform 0.5s ease-out; /* حركة الظهور */
+}
+
+.erp-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); /* تنزلق للداخل */
+}
+
+.erp-modal-content {
+    background-color: var(--mac-body-color); /* لون جسم الـ Mac */
+    width: 90%;
+    height: 90%;
+    max-width: 1200px;
+    max-height: 700px;
+    border-radius: 15px; /* حواف مستديرة كبيرة */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* لإخفاء أي شيء يخرج عن الحواف المستديرة */
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px; /* في RTL، زر الإغلاق يكون على اليمين */
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2001; /* ليكون فوق المحتوى */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.close-modal-btn:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.erp-modal-iframe-container {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--mac-bezel-color); /* خلفية سوداء للشاشة */
+    border-radius: 10px; /* حواف مستديرة للشاشة داخل المودال */
+    margin: 15px; /* إطار حول الـ iframe */
+    overflow: hidden; /* لضمان أن الـ iframe داخل الحواف المستديرة */
+}
+
+#erp-modal-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px; /* يجب أن يتطابق مع الـ container */
+    opacity: 0; /* تبدأ مخفية */
+    transition: opacity 0.3s ease-in;
+}
+
+#erp-modal-iframe.loaded {
+    opacity: 1; /* تظهر بعد التحميل */
+}
+
+.loading-overlay-modal {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
-    z-index: -1;
-}
-
-.single-post-hero h1 {
-    font-size: 3em;
-    margin-bottom: 15px;
+    background-color: rgba(0, 0, 0, 0.9); /* خلفية تحميل داكنة */
     color: var(--white);
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    transition: opacity 0.3s ease-out;
+    pointer-events: none; /* لا تمنع النقرات بمجرد ظهورها */
 }
 
-.single-post-hero .post-meta {
-    font-size: 1.1em;
-    opacity: 0.9;
-}
-
-.single-post-content {
-    padding: 60px 0;
-    background-color: var(--bg-light);
-    color: var(--text-color);
-}
-
-.single-post-content .container {
-    max-width: 800px; /* جعل محتوى المقال أضيق للقراءة */
-    width: 90%;
-}
-
-.single-post-content h2 {
+.loading-overlay-modal i {
+    font-size: 3em;
     color: var(--primary-color);
-    margin-top: 40px;
-    margin-bottom: 20px;
-    font-size: 2em;
-    position: relative;
-    padding-bottom: 10px;
-    text-align: right; /* Override center alignment for h2 */
-}
-
-.single-post-content h2::after { /* Underline effect */
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 60px;
-    height: 3px;
-    background-color: var(--primary-color);
-    /* No transform needed as it's aligned to right */
-}
-
-.single-post-content h3 {
-    color: var(--bg-dark);
-    margin-top: 30px;
     margin-bottom: 15px;
-    font-size: 1.6em;
 }
 
-.single-post-content p {
-    margin-bottom: 25px;
-    line-height: 1.8;
-    font-size: 1.1em;
+.loading-overlay-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
-.single-post-content ul {
-    list-style: none;
-    margin-bottom: 25px;
-    padding: 0;
-    margin-right: 20px;
-}
-
-.single-post-content ul li {
-    position: relative;
-    padding-right: 25px;
-    margin-bottom: 10px;
-    line-height: 1.6;
-}
-
-.single-post-content ul li::before {
-    content: '\f00c';
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    color: var(--primary-color);
-    position: absolute;
-    right: 0;
-    top: 5px;
-    font-size: 0.9em;
-}
-
-.single-post-content .post-image {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 30px auto;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.single-post-content strong {
-    color: var(--primary-color);
-}
-
-.back-to-blog {
-    text-align: center;
-    margin-top: 50px;
-}
-
-.back-to-blog .btn {
-    padding: 12px 25px;
-    font-size: 1.1em;
-}
+/* ******************************************************************* */
+/* ************* نهاية نافذة الـ ERP المنبثقة ************* */
+/* ******************************************************************* */
 
 
 /* Responsive Design - الاستجابة للأجهزة الصغيرة */
@@ -1174,6 +1312,11 @@ footer {
 
     .contact-section form {
         max-width: 500px;
+    }
+
+    /* تصغير حجم اللابتوبات على الشاشات المتوسطة */
+    .laptop-container {
+        max-width: 320px; /* حجم أصغر قليلاً */
     }
 }
 
@@ -1382,6 +1525,50 @@ footer {
         font-size: 1em;
     }
 
+    /* Adjustments for realistic laptop on mobile */
+    .laptop-container:hover .laptop-bezel,
+    .laptop-container:hover .laptop-base,
+    .laptop-container:hover {
+        transform: none; /* Disable 3D effects and scale on hover for mobile */
+        box-shadow: none; /* Remove extra shadows on hover for mobile */
+    }
+    .laptop-bezel {
+        padding: 10px; /* إطار أقل سمكاً على الموبايل */
+        border-radius: 8px 8px 0 0;
+    }
+    .laptop-base {
+        height: 40px; /* قاعدة أقل ارتفاعاً */
+        border-radius: 0 0 8px 8px;
+    }
+    .laptop-base .keyboard {
+        height: 15px;
+    }
+    .laptop-base .trackpad {
+        height: 7px;
+    }
+    .laptop-container {
+        max-width: 280px; /* حجم أصغر */
+    }
+
+    /* Modal adjustments for mobile */
+    .erp-modal-content {
+        width: 95%;
+        height: 95%;
+        border-radius: 10px;
+    }
+    .close-modal-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1em;
+        top: 10px;
+        right: 10px;
+    }
+    .loading-overlay-modal i {
+        font-size: 2.5em;
+    }
+    .loading-overlay-modal p {
+        font-size: 1.2em;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1403,5 +1590,9 @@ footer {
     .btn, .btn-small {
         padding: 8px 18px;
         font-size: 0.85em;
+    }
+    /* تصغير حجم اللابتوبات على أصغر الشاشات */
+    .laptop-container {
+        max-width: 250px; /* حجم أصغر جداً */
     }
 }

@@ -37,6 +37,7 @@
                     <li><a href="#why-us">لماذا نحن؟</a></li>
                     <li><a href="#services">خدماتنا</a></li>
                     <li><a href="#solutions">حلولنا الذكية</a></li>
+                    <li><a href="#our-erp-showcase">أنظمة ERP</a></li> <!-- رابط جديد لقسم الأنظمة -->
                     <li><a href="blog.html">المدونة</a></li>
                     <li><a href="team.html">فريقنا</a></li>
                     <li><a href="#contact">تواصل معنا</a></li>
@@ -158,6 +159,80 @@
         </div>
     </section>
 
+    <!-- *************************************************************** -->
+    <!-- ************* قسم عرض أنظمة ERP في إطارات لابتوب (محدث) ************* -->
+    <!-- *************************************************************** -->
+    <section id="our-erp-showcase" class="py-16 bg-gray-100 dark:bg-gray-800 fade-in-on-scroll">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white">
+                نظام Technost ERP: حلولنا المتكاملة
+            </h2>
+            <p class="text-center text-lg text-gray-700 dark:text-gray-300 mb-12">
+                نقدم لكم نظرة سريعة على بعض الوحدات الأساسية في نظامنا المتكامل لتخطيط موارد المؤسسات (ERP)، المصمم لتبسيط عملياتكم وتحقيق أقصى كفاءة.
+                <br>اضغط على أي لابتوب لمشاهدة العرض التوضيحي.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- لابتوب 1: وحدة الفواتير والمبيعات -->
+                <div class="laptop-container group" data-erp-src="erp-mockups/erp-invoicing-mockup.html">
+                    <div class="laptop-bezel relative">
+                        <div class="laptop-screen">
+                            <!-- الشاشة ستكون فارغة هنا، المحتوى يظهر في المودال -->
+                        </div>
+                        <div class="camera-notch"></div>
+                    </div>
+                    <div class="laptop-base relative">
+                        <div class="keyboard"></div>
+                        <div class="trackpad"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-2">وحدة الفواتير والمبيعات</h3>
+                        <p class="text-gray-600 dark:text-gray-400">إدارة شاملة للفواتير، المشتريات، والمبيعات لضمان تدفق مالي سلس.</p>
+                    </div>
+                </div>
+
+                <!-- لابتوب 2: وحدة الموارد البشرية (الحضور والغياب) -->
+                <div class="laptop-container group" data-erp-src="erp-mockups/erp-hr-mockup.html">
+                    <div class="laptop-bezel relative">
+                        <div class="laptop-screen">
+                            <!-- الشاشة ستكون فارغة هنا، المحتوى يظهر في المودال -->
+                        </div>
+                        <div class="camera-notch"></div>
+                    </div>
+                    <div class="laptop-base relative">
+                        <div class="keyboard"></div>
+                        <div class="trackpad"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-2">وحدة الموارد البشرية</h3>
+                        <p class="text-gray-600 dark:text-gray-400">تسجيل وتتبع حضور وغياب الموظفين بكفاءة ودقة.</p>
+                    </div>
+                </div>
+
+                <!-- لابتوب 3: لوحة التحكم الإدارية (Dashboard) -->
+                <div class="laptop-container group" data-erp-src="erp-mockups/erp-dashboard-mockup.html">
+                    <div class="laptop-bezel relative">
+                        <div class="laptop-screen">
+                            <!-- الشاشة ستكون فارغة هنا، المحتوى يظهر في المودال -->
+                        </div>
+                        <div class="camera-notch"></div>
+                    </div>
+                    <div class="laptop-base relative">
+                        <div class="keyboard"></div>
+                        <div class="trackpad"></div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-2">لوحة التحكم الإدارية</h3>
+                        <p class="text-gray-600 dark:text-gray-400">تقارير ومؤشرات أداء مباشرة لدعم اتخاذ القرار الإستراتيجي.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- *************************************************************** -->
+    <!-- ************* نهاية قسم عرض أنظمة ERP في إطارات لابتوب ************* -->
+    <!-- *************************************************************** -->
+
     <section id="contact" class="contact-section fade-in-on-scroll">
         <div class="container">
             <h2>تواصل معنا للاستفسار</h2>
@@ -180,6 +255,27 @@
             <p>&copy; <span id="currentYear"></span> Technost. نبرمج المستقبل. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
+
+    <!-- *************************************************************** -->
+    <!-- ************* نافذة الـ ERP المنبثقة (Modal Overlay) ************* -->
+    <!-- *************************************************************** -->
+    <div id="erp-modal-overlay" class="erp-modal-overlay">
+        <div class="erp-modal-content">
+            <button class="close-modal-btn" aria-label="إغلاق العرض التوضيحي">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="erp-modal-iframe-container">
+                <iframe id="erp-modal-iframe" src="" frameborder="0" allowfullscreen></iframe>
+                <div class="loading-overlay-modal">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>جاري تحميل العرض التوضيحي...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- *************************************************************** -->
+    <!-- ************* نهاية نافذة الـ ERP المنبثقة ************* -->
+    <!-- *************************************************************** -->
 
     <script src="script.js"></script>
 </body>
